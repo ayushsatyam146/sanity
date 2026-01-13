@@ -1,0 +1,1303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sanity</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%2350CD78'/%3E%3Cstop offset='100%25' style='stop-color:%233BA55D'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='50' cy='50' r='45' fill='url(%23g)'/%3E%3Ctext x='50' y='68' text-anchor='middle' font-size='55' font-weight='bold' font-family='Arial' fill='white'%3ES%3C/text%3E%3C/svg%3E">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: #000000;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Animated gradient orbs */
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.5;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        .orb-1 {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(50, 205, 120, 0.35) 0%, transparent 70%);
+            top: -300px;
+            right: -200px;
+            animation: float 20s ease-in-out infinite, pulse-orb 8s ease-in-out infinite;
+        }
+
+        .orb-2 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(40, 180, 100, 0.3) 0%, transparent 70%);
+            bottom: -250px;
+            left: -150px;
+            animation: float 18s ease-in-out infinite, pulse-orb 6s ease-in-out infinite;
+            animation-delay: -5s;
+        }
+
+        .orb-3 {
+            width: 450px;
+            height: 450px;
+            background: radial-gradient(circle, rgba(60, 220, 140, 0.25) 0%, transparent 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: float 22s ease-in-out infinite, pulse-orb 10s ease-in-out infinite;
+            animation-delay: -10s;
+        }
+
+        @keyframes pulse-orb {
+            0%, 100% {
+                filter: blur(80px);
+                opacity: 0.5;
+            }
+            50% {
+                filter: blur(100px);
+                opacity: 0.7;
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translate(0, 0) scale(1);
+                opacity: 0.4;
+            }
+            25% {
+                transform: translate(50px, -30px) scale(1.1);
+                opacity: 0.6;
+            }
+            50% {
+                transform: translate(-30px, 50px) scale(0.9);
+                opacity: 0.5;
+            }
+            75% {
+                transform: translate(-50px, -20px) scale(1.05);
+                opacity: 0.4;
+            }
+        }
+
+        /* Grid overlay */
+        body::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+        }
+
+        /* Noise texture overlay */
+        body::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            opacity: 0.03;
+            pointer-events: none;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 700px;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo {
+            margin-bottom: 70px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .brand-text {
+            font-size: 52px;
+            font-weight: 300;
+            color: rgba(255, 255, 255, 0.9);
+            text-align: center;
+            letter-spacing: -1px;
+            line-height: 1.2;
+            margin-bottom: 8px;
+        }
+
+        .brand-text .highlight {
+            display: block;
+            font-size: 72px;
+            font-weight: 800;
+            letter-spacing: -3px;
+            background: linear-gradient(
+                135deg,
+                rgba(255, 255, 255, 1) 0%,
+                rgba(200, 235, 215, 0.95) 25%,
+                rgba(150, 210, 180, 0.9) 50%,
+                rgba(220, 245, 230, 0.95) 75%,
+                rgba(255, 255, 255, 1) 100%
+            );
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradient-flow 8s ease infinite;
+            position: relative;
+        }
+
+        .brand-text .highlight::after {
+            content: 'Sanity';
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: inherit;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: blur(30px);
+            opacity: 0.5;
+            z-index: -1;
+        }
+
+        @keyframes gradient-flow {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .brand-subtitle {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.35);
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            font-weight: 500;
+            margin-top: 15px;
+        }
+
+        .search-box {
+            width: 100%;
+            margin-bottom: 30px;
+        }
+
+        .search-wrapper {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 20px 28px;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow:
+                0 0 0 1px rgba(255, 255, 255, 0.05) inset,
+                0 20px 50px -20px rgba(0, 0, 0, 0.5);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .search-wrapper::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                135deg,
+                rgba(120, 160, 140, 0) 0%,
+                rgba(100, 140, 120, 0) 50%,
+                rgba(130, 170, 150, 0) 100%
+            );
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .search-wrapper:hover {
+            border-color: rgba(255, 255, 255, 0.12);
+            transform: translateY(-3px);
+            box-shadow:
+                0 0 0 1px rgba(255, 255, 255, 0.08) inset,
+                0 30px 60px -20px rgba(0, 0, 0, 0.5),
+                0 0 60px -30px rgba(100, 180, 130, 0.15);
+        }
+
+        .search-wrapper:focus-within {
+            border-color: rgba(130, 190, 155, 0.3);
+            transform: translateY(-3px);
+            box-shadow:
+                0 0 0 1px rgba(130, 190, 155, 0.1) inset,
+                0 30px 60px -20px rgba(0, 0, 0, 0.5),
+                0 0 50px -20px rgba(100, 180, 130, 0.2);
+        }
+
+        .search-wrapper:focus-within::before {
+            opacity: 0.05;
+        }
+
+        .search-icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 16px;
+            opacity: 0.4;
+            transition: opacity 0.3s ease;
+        }
+
+        .search-wrapper:focus-within .search-icon {
+            opacity: 0.8;
+        }
+
+        .search-icon path {
+            fill: #ffffff;
+        }
+
+        #searchInput {
+            flex: 1;
+            border: none;
+            outline: none;
+            font-size: 18px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 400;
+            background: transparent;
+            color: rgba(255, 255, 255, 0.95);
+            letter-spacing: 0.3px;
+        }
+
+        #searchInput::placeholder {
+            color: rgba(255, 255, 255, 0.25);
+            font-weight: 300;
+        }
+
+        .buttons {
+            display: none;
+        }
+
+        /* Subtle corner accents */
+        .corner-accent {
+            position: fixed;
+            width: 150px;
+            height: 150px;
+            pointer-events: none;
+            opacity: 0.6;
+        }
+
+        .corner-accent.top-left {
+            top: 0;
+            left: 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .corner-accent.bottom-right {
+            bottom: 0;
+            right: 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* 3D Starfield */
+        .starfield {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .star {
+            position: absolute;
+            background: #fff;
+            border-radius: 50%;
+            animation: twinkle var(--twinkle-duration, 3s) ease-in-out infinite;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            pointer-events: auto;
+        }
+
+        .star:hover {
+            transform: scale(2.5) !important;
+            box-shadow: 0 0 15px rgba(150, 220, 180, 0.6), 0 0 30px rgba(130, 200, 160, 0.3) !important;
+            z-index: 100;
+        }
+
+        .star.pulse {
+            animation: star-pulse 0.6s ease-out;
+        }
+
+        @keyframes star-pulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(150, 220, 180, 0.6); }
+            50% { transform: scale(3); box-shadow: 0 0 25px 8px rgba(130, 200, 160, 0.2); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(150, 220, 180, 0); }
+        }
+
+        .star::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: var(--base-opacity, 0.3); transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        .star-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        /* Shooting star */
+        .shooting-star {
+            position: absolute;
+            width: 120px;
+            height: 2px;
+            border-radius: 100px;
+            pointer-events: none;
+            transform-origin: right center;
+            animation: shoot linear forwards;
+        }
+
+        .shooting-star::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.5) 70%, rgba(255, 255, 255, 1) 100%);
+            border-radius: 100px;
+        }
+
+        .shooting-star::after {
+            content: '';
+            position: absolute;
+            right: -2px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 4px;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 6px 2px rgba(255, 255, 255, 0.9);
+        }
+
+        @keyframes shoot {
+            0% {
+                opacity: 1;
+                transform: rotate(45deg) translateX(0);
+            }
+            80% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: rotate(45deg) translateX(500px);
+            }
+        }
+
+        /* Ripple effect on click */
+        .ripple {
+            position: absolute;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            animation: ripple-expand 1s ease-out forwards;
+            pointer-events: none;
+        }
+
+        @keyframes ripple-expand {
+            0% {
+                width: 0;
+                height: 0;
+                opacity: 0.8;
+            }
+            100% {
+                width: 150px;
+                height: 150px;
+                opacity: 0;
+                margin-left: -75px;
+                margin-top: -75px;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .brand-text {
+                font-size: 36px;
+            }
+            .brand-text .highlight {
+                font-size: 52px;
+            }
+            .search-wrapper {
+                padding: 16px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 3D Starfield -->
+    <div class="starfield" id="starfield"></div>
+
+    <!-- Animated gradient orbs -->
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+
+    <!-- Corner accents -->
+    <div class="corner-accent top-left"></div>
+    <div class="corner-accent bottom-right"></div>
+
+    <div class="container">
+        <div class="logo">
+            <div class="brand-text">
+                <span class="highlight">Sanity</span>
+            </div>
+            <div class="brand-subtitle">YouTube · Distraction Free</div>
+        </div>
+
+        <form class="search-box" id="searchForm">
+            <div class="search-wrapper">
+                <svg class="search-icon" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path fill="#9aa0a6" d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input 
+                    type="text" 
+                    id="searchInput" 
+                    placeholder="Search YouTube"
+                    autocomplete="off"
+                    autofocus
+                />
+            </div>
+            <div class="buttons">
+                <button type="submit">YouTube Search</button>
+                <button type="button" id="luckyBtn">I'm Feeling Lucky</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // Generate 3D Starfield with Interactivity
+        (function createStarfield() {
+            const starfield = document.getElementById('starfield');
+            const starCount = 150;
+            const stars = [];
+
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+
+                // Random position
+                const x = Math.random() * 100;
+                const y = Math.random() * 100;
+                star.style.left = x + '%';
+                star.style.top = y + '%';
+
+                // Store original position for parallax
+                star.dataset.x = x;
+                star.dataset.y = y;
+                star.dataset.depth = Math.random();
+
+                // Random size (creates depth illusion)
+                const size = Math.random() * 3 + 1;
+                star.style.width = size + 'px';
+                star.style.height = size + 'px';
+
+                // Random twinkle timing
+                star.style.setProperty('--twinkle-duration', (Math.random() * 4 + 2) + 's');
+                star.style.setProperty('--base-opacity', (Math.random() * 0.5 + 0.2));
+                star.style.animationDelay = Math.random() * 5 + 's';
+
+                // Subtle cool tints for larger stars
+                if (size > 2.5) {
+                    const colors = ['#fff', '#f0fff5', '#e8fff0', '#f5fffa', '#fff'];
+                    const color = colors[Math.floor(Math.random() * colors.length)];
+                    star.style.background = color;
+                    star.style.boxShadow = `0 0 ${size * 2}px rgba(200, 240, 220, 0.35)`;
+                }
+
+                // Click to pulse
+                star.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    star.classList.remove('pulse');
+                    void star.offsetWidth; // Trigger reflow
+                    star.classList.add('pulse');
+
+                    // Create ripple
+                    const ripple = document.createElement('div');
+                    ripple.className = 'ripple';
+                    ripple.style.left = star.style.left;
+                    ripple.style.top = star.style.top;
+                    starfield.appendChild(ripple);
+                    setTimeout(() => ripple.remove(), 1000);
+                });
+
+                starfield.appendChild(star);
+                stars.push(star);
+            }
+
+            // Mouse parallax effect
+            document.addEventListener('mousemove', (e) => {
+                const centerX = window.innerWidth / 2;
+                const centerY = window.innerHeight / 2;
+                const moveX = (e.clientX - centerX) / centerX;
+                const moveY = (e.clientY - centerY) / centerY;
+
+                stars.forEach(star => {
+                    const depth = parseFloat(star.dataset.depth);
+                    const x = parseFloat(star.dataset.x);
+                    const y = parseFloat(star.dataset.y);
+                    const offsetX = moveX * 30 * depth;
+                    const offsetY = moveY * 30 * depth;
+                    star.style.left = `calc(${x}% + ${offsetX}px)`;
+                    star.style.top = `calc(${y}% + ${offsetY}px)`;
+                });
+            });
+
+            // Click anywhere to create ripple
+            starfield.addEventListener('click', (e) => {
+                const ripple = document.createElement('div');
+                ripple.className = 'ripple';
+                ripple.style.left = e.clientX + 'px';
+                ripple.style.top = e.clientY + 'px';
+                starfield.appendChild(ripple);
+                setTimeout(() => ripple.remove(), 1000);
+            });
+
+            // Add shooting stars
+            function createShootingStar() {
+                const shooter = document.createElement('div');
+                shooter.className = 'shooting-star';
+
+                // Start from upper-left portion of screen
+                const startX = Math.random() * 50 + 5;  // 5-55% from left
+                const startY = Math.random() * 35 + 5;  // 5-40% from top
+
+                shooter.style.left = startX + '%';
+                shooter.style.top = startY + '%';
+
+                const duration = Math.random() * 0.6 + 0.5; // 0.5-1.1s
+                shooter.style.animationDuration = duration + 's';
+
+                starfield.appendChild(shooter);
+                setTimeout(() => shooter.remove(), duration * 1000 + 100);
+            }
+
+            // Random shooting stars
+            setInterval(() => {
+                if (Math.random() > 0.6) createShootingStar();
+            }, 4000);
+
+            // Initial shooting star after a delay
+            setTimeout(createShootingStar, 2000);
+        })();
+
+        const form = document.getElementById('searchForm');
+        const searchInput = document.getElementById('searchInput');
+        const luckyBtn = document.getElementById('luckyBtn');
+
+        function performSearch() {
+            const query = searchInput.value.trim();
+            if (query) {
+                // sp=EgIQAQ%3D%3D filters for "Videos" type only, excluding Shorts
+                const url = 'https://www.youtube.com/results?search_query=' + encodeURIComponent(query) + '&sp=EgIQAQ%3D%3D';
+                window.location.href = url;
+            }
+        }
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            performSearch();
+        });
+
+        searchInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                performSearch();
+            }
+        });
+
+        luckyBtn.addEventListener('click', () => {
+            performSearch();
+        });
+    </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sanity</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%2350CD78'/%3E%3Cstop offset='100%25' style='stop-color:%233BA55D'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='50' cy='50' r='45' fill='url(%23g)'/%3E%3Ctext x='50' y='68' text-anchor='middle' font-size='55' font-weight='bold' font-family='Arial' fill='white'%3ES%3C/text%3E%3C/svg%3E">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: #000000;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Animated gradient orbs */
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.5;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        .orb-1 {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(50, 205, 120, 0.35) 0%, transparent 70%);
+            top: -300px;
+            right: -200px;
+            animation: float 20s ease-in-out infinite, pulse-orb 8s ease-in-out infinite;
+        }
+
+        .orb-2 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(40, 180, 100, 0.3) 0%, transparent 70%);
+            bottom: -250px;
+            left: -150px;
+            animation: float 18s ease-in-out infinite, pulse-orb 6s ease-in-out infinite;
+            animation-delay: -5s;
+        }
+
+        .orb-3 {
+            width: 450px;
+            height: 450px;
+            background: radial-gradient(circle, rgba(60, 220, 140, 0.25) 0%, transparent 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: float 22s ease-in-out infinite, pulse-orb 10s ease-in-out infinite;
+            animation-delay: -10s;
+        }
+
+        @keyframes pulse-orb {
+            0%, 100% {
+                filter: blur(80px);
+                opacity: 0.5;
+            }
+            50% {
+                filter: blur(100px);
+                opacity: 0.7;
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translate(0, 0) scale(1);
+                opacity: 0.4;
+            }
+            25% {
+                transform: translate(50px, -30px) scale(1.1);
+                opacity: 0.6;
+            }
+            50% {
+                transform: translate(-30px, 50px) scale(0.9);
+                opacity: 0.5;
+            }
+            75% {
+                transform: translate(-50px, -20px) scale(1.05);
+                opacity: 0.4;
+            }
+        }
+
+        /* Grid overlay */
+        body::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+        }
+
+        /* Noise texture overlay */
+        body::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            opacity: 0.03;
+            pointer-events: none;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 700px;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo {
+            margin-bottom: 70px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .brand-text {
+            font-size: 52px;
+            font-weight: 300;
+            color: rgba(255, 255, 255, 0.9);
+            text-align: center;
+            letter-spacing: -1px;
+            line-height: 1.2;
+            margin-bottom: 8px;
+        }
+
+        .brand-text .highlight {
+            display: block;
+            font-size: 72px;
+            font-weight: 800;
+            letter-spacing: -3px;
+            background: linear-gradient(
+                135deg,
+                rgba(255, 255, 255, 1) 0%,
+                rgba(200, 235, 215, 0.95) 25%,
+                rgba(150, 210, 180, 0.9) 50%,
+                rgba(220, 245, 230, 0.95) 75%,
+                rgba(255, 255, 255, 1) 100%
+            );
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradient-flow 8s ease infinite;
+            position: relative;
+        }
+
+        .brand-text .highlight::after {
+            content: 'Sanity';
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: inherit;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: blur(30px);
+            opacity: 0.5;
+            z-index: -1;
+        }
+
+        @keyframes gradient-flow {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .brand-subtitle {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.35);
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            font-weight: 500;
+            margin-top: 15px;
+        }
+
+        .search-box {
+            width: 100%;
+            margin-bottom: 30px;
+        }
+
+        .search-wrapper {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 20px 28px;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow:
+                0 0 0 1px rgba(255, 255, 255, 0.05) inset,
+                0 20px 50px -20px rgba(0, 0, 0, 0.5);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .search-wrapper::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                135deg,
+                rgba(120, 160, 140, 0) 0%,
+                rgba(100, 140, 120, 0) 50%,
+                rgba(130, 170, 150, 0) 100%
+            );
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .search-wrapper:hover {
+            border-color: rgba(255, 255, 255, 0.12);
+            transform: translateY(-3px);
+            box-shadow:
+                0 0 0 1px rgba(255, 255, 255, 0.08) inset,
+                0 30px 60px -20px rgba(0, 0, 0, 0.5),
+                0 0 60px -30px rgba(100, 180, 130, 0.15);
+        }
+
+        .search-wrapper:focus-within {
+            border-color: rgba(130, 190, 155, 0.3);
+            transform: translateY(-3px);
+            box-shadow:
+                0 0 0 1px rgba(130, 190, 155, 0.1) inset,
+                0 30px 60px -20px rgba(0, 0, 0, 0.5),
+                0 0 50px -20px rgba(100, 180, 130, 0.2);
+        }
+
+        .search-wrapper:focus-within::before {
+            opacity: 0.05;
+        }
+
+        .search-icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 16px;
+            opacity: 0.4;
+            transition: opacity 0.3s ease;
+        }
+
+        .search-wrapper:focus-within .search-icon {
+            opacity: 0.8;
+        }
+
+        .search-icon path {
+            fill: #ffffff;
+        }
+
+        #searchInput {
+            flex: 1;
+            border: none;
+            outline: none;
+            font-size: 18px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 400;
+            background: transparent;
+            color: rgba(255, 255, 255, 0.95);
+            letter-spacing: 0.3px;
+        }
+
+        #searchInput::placeholder {
+            color: rgba(255, 255, 255, 0.25);
+            font-weight: 300;
+        }
+
+        .buttons {
+            display: none;
+        }
+
+        /* Subtle corner accents */
+        .corner-accent {
+            position: fixed;
+            width: 150px;
+            height: 150px;
+            pointer-events: none;
+            opacity: 0.6;
+        }
+
+        .corner-accent.top-left {
+            top: 0;
+            left: 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .corner-accent.bottom-right {
+            bottom: 0;
+            right: 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* 3D Starfield */
+        .starfield {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .star {
+            position: absolute;
+            background: #fff;
+            border-radius: 50%;
+            animation: twinkle var(--twinkle-duration, 3s) ease-in-out infinite;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            pointer-events: auto;
+        }
+
+        .star:hover {
+            transform: scale(2.5) !important;
+            box-shadow: 0 0 15px rgba(150, 220, 180, 0.6), 0 0 30px rgba(130, 200, 160, 0.3) !important;
+            z-index: 100;
+        }
+
+        .star.pulse {
+            animation: star-pulse 0.6s ease-out;
+        }
+
+        @keyframes star-pulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(150, 220, 180, 0.6); }
+            50% { transform: scale(3); box-shadow: 0 0 25px 8px rgba(130, 200, 160, 0.2); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(150, 220, 180, 0); }
+        }
+
+        .star::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: var(--base-opacity, 0.3); transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        .star-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        /* Shooting star */
+        .shooting-star {
+            position: absolute;
+            width: 120px;
+            height: 2px;
+            border-radius: 100px;
+            pointer-events: none;
+            transform-origin: right center;
+            animation: shoot linear forwards;
+        }
+
+        .shooting-star::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.5) 70%, rgba(255, 255, 255, 1) 100%);
+            border-radius: 100px;
+        }
+
+        .shooting-star::after {
+            content: '';
+            position: absolute;
+            right: -2px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 4px;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 6px 2px rgba(255, 255, 255, 0.9);
+        }
+
+        @keyframes shoot {
+            0% {
+                opacity: 1;
+                transform: rotate(45deg) translateX(0);
+            }
+            80% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: rotate(45deg) translateX(500px);
+            }
+        }
+
+        /* Ripple effect on click */
+        .ripple {
+            position: absolute;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            animation: ripple-expand 1s ease-out forwards;
+            pointer-events: none;
+        }
+
+        @keyframes ripple-expand {
+            0% {
+                width: 0;
+                height: 0;
+                opacity: 0.8;
+            }
+            100% {
+                width: 150px;
+                height: 150px;
+                opacity: 0;
+                margin-left: -75px;
+                margin-top: -75px;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .brand-text {
+                font-size: 36px;
+            }
+            .brand-text .highlight {
+                font-size: 52px;
+            }
+            .search-wrapper {
+                padding: 16px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 3D Starfield -->
+    <div class="starfield" id="starfield"></div>
+
+    <!-- Animated gradient orbs -->
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+
+    <!-- Corner accents -->
+    <div class="corner-accent top-left"></div>
+    <div class="corner-accent bottom-right"></div>
+
+    <div class="container">
+        <div class="logo">
+            <div class="brand-text">
+                <span class="highlight">Sanity</span>
+            </div>
+            <div class="brand-subtitle">YouTube · Distraction Free</div>
+        </div>
+
+        <form class="search-box" id="searchForm">
+            <div class="search-wrapper">
+                <svg class="search-icon" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path fill="#9aa0a6" d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                </svg>
+                <input 
+                    type="text" 
+                    id="searchInput" 
+                    placeholder="Search YouTube"
+                    autocomplete="off"
+                    autofocus
+                />
+            </div>
+            <div class="buttons">
+                <button type="submit">YouTube Search</button>
+                <button type="button" id="luckyBtn">I'm Feeling Lucky</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // Generate 3D Starfield with Interactivity
+        (function createStarfield() {
+            const starfield = document.getElementById('starfield');
+            const starCount = 150;
+            const stars = [];
+
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+
+                // Random position
+                const x = Math.random() * 100;
+                const y = Math.random() * 100;
+                star.style.left = x + '%';
+                star.style.top = y + '%';
+
+                // Store original position for parallax
+                star.dataset.x = x;
+                star.dataset.y = y;
+                star.dataset.depth = Math.random();
+
+                // Random size (creates depth illusion)
+                const size = Math.random() * 3 + 1;
+                star.style.width = size + 'px';
+                star.style.height = size + 'px';
+
+                // Random twinkle timing
+                star.style.setProperty('--twinkle-duration', (Math.random() * 4 + 2) + 's');
+                star.style.setProperty('--base-opacity', (Math.random() * 0.5 + 0.2));
+                star.style.animationDelay = Math.random() * 5 + 's';
+
+                // Subtle cool tints for larger stars
+                if (size > 2.5) {
+                    const colors = ['#fff', '#f0fff5', '#e8fff0', '#f5fffa', '#fff'];
+                    const color = colors[Math.floor(Math.random() * colors.length)];
+                    star.style.background = color;
+                    star.style.boxShadow = `0 0 ${size * 2}px rgba(200, 240, 220, 0.35)`;
+                }
+
+                // Click to pulse
+                star.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    star.classList.remove('pulse');
+                    void star.offsetWidth; // Trigger reflow
+                    star.classList.add('pulse');
+
+                    // Create ripple
+                    const ripple = document.createElement('div');
+                    ripple.className = 'ripple';
+                    ripple.style.left = star.style.left;
+                    ripple.style.top = star.style.top;
+                    starfield.appendChild(ripple);
+                    setTimeout(() => ripple.remove(), 1000);
+                });
+
+                starfield.appendChild(star);
+                stars.push(star);
+            }
+
+            // Mouse parallax effect
+            document.addEventListener('mousemove', (e) => {
+                const centerX = window.innerWidth / 2;
+                const centerY = window.innerHeight / 2;
+                const moveX = (e.clientX - centerX) / centerX;
+                const moveY = (e.clientY - centerY) / centerY;
+
+                stars.forEach(star => {
+                    const depth = parseFloat(star.dataset.depth);
+                    const x = parseFloat(star.dataset.x);
+                    const y = parseFloat(star.dataset.y);
+                    const offsetX = moveX * 30 * depth;
+                    const offsetY = moveY * 30 * depth;
+                    star.style.left = `calc(${x}% + ${offsetX}px)`;
+                    star.style.top = `calc(${y}% + ${offsetY}px)`;
+                });
+            });
+
+            // Click anywhere to create ripple
+            starfield.addEventListener('click', (e) => {
+                const ripple = document.createElement('div');
+                ripple.className = 'ripple';
+                ripple.style.left = e.clientX + 'px';
+                ripple.style.top = e.clientY + 'px';
+                starfield.appendChild(ripple);
+                setTimeout(() => ripple.remove(), 1000);
+            });
+
+            // Add shooting stars
+            function createShootingStar() {
+                const shooter = document.createElement('div');
+                shooter.className = 'shooting-star';
+
+                // Start from upper-left portion of screen
+                const startX = Math.random() * 50 + 5;  // 5-55% from left
+                const startY = Math.random() * 35 + 5;  // 5-40% from top
+
+                shooter.style.left = startX + '%';
+                shooter.style.top = startY + '%';
+
+                const duration = Math.random() * 0.6 + 0.5; // 0.5-1.1s
+                shooter.style.animationDuration = duration + 's';
+
+                starfield.appendChild(shooter);
+                setTimeout(() => shooter.remove(), duration * 1000 + 100);
+            }
+
+            // Random shooting stars
+            setInterval(() => {
+                if (Math.random() > 0.6) createShootingStar();
+            }, 4000);
+
+            // Initial shooting star after a delay
+            setTimeout(createShootingStar, 2000);
+        })();
+
+        const form = document.getElementById('searchForm');
+        const searchInput = document.getElementById('searchInput');
+        const luckyBtn = document.getElementById('luckyBtn');
+
+        function performSearch() {
+            const query = searchInput.value.trim();
+            if (query) {
+                // sp=EgIQAQ%3D%3D filters for "Videos" type only, excluding Shorts
+                const url = 'https://www.youtube.com/results?search_query=' + encodeURIComponent(query) + '&sp=EgIQAQ%3D%3D';
+                window.location.href = url;
+            }
+        }
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            performSearch();
+        });
+
+        searchInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                performSearch();
+            }
+        });
+
+        luckyBtn.addEventListener('click', () => {
+            performSearch();
+        });
+    </script>
+</body>
+</html>
